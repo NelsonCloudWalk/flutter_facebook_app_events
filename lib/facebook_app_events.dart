@@ -134,6 +134,31 @@ class FacebookAppEvents {
     return _channel.invokeMethod<void>('updateUserProperties', args);
   }
 
+  Future<void> logPurchase(
+    double purchaseAmount,
+    String currency,
+    Map<dynamic, dynamic> parameters,
+  ) {
+    if (purchaseAmount == null) {
+      print("purchaseAmount cannot be null");
+      return null;
+    } else if (currency == null) {
+      print("currency cannot be null");
+      return null;
+    }
+
+    if (parameters == null) {
+      parameters = {};
+    }
+    parameters.putIfAbsent("fb_currency", () => currency);
+
+    return logEvent(
+      name: "fb_mobile_purchase",
+      valueToSum: purchaseAmount,
+      parameters: parameters,
+    );
+  }
+
   // Below are shorthand implementations of the predefined app event constants
 
   /// Log this event when an app is being activated.
