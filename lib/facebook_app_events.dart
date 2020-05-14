@@ -137,7 +137,7 @@ class FacebookAppEvents {
   Future<void> logPurchase(
     double purchaseAmount,
     String currency,
-    Map<dynamic, dynamic> parameters,
+    Map<String, dynamic> parameters,
   ) {
     final args = <String, dynamic>{
       'purchaseAmount': purchaseAmount,
