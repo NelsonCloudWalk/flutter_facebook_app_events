@@ -40,12 +40,22 @@ class FacebookAppEventsPlugin(registrar: Registrar) : MethodCallHandler {
       "setUserID" -> handleSetUserId(call, result)
       "updateUserProperties" -> handleUpdateUserProperties(call, result)
       "setAutoLogAppEventsEnabled" -> handleSetAutoLogAppEventsEnabled(call, result)
+      "logPurchase" -> handleLogPurchase(call, result)
       else -> result.notImplemented()
     }
   }
 
   private fun handleClearUserData(call: MethodCall, result: Result) {
     AppEventsLogger.clearUserData()
+    result.success(null)
+  }
+
+  private fun handleLogPurchase(call: MethodCall, result: Result) {
+    val purchaseAmount = call.argument("purchaseAmount") as? Double
+    val currency = call.argument("currency") as? String
+    val parameters = call.argument("parameters") as? Map<String, Object>
+
+    appEventsLogger.logPurchase(purchaseAmount, currency, parameters)
     result.success(null)
   }
 

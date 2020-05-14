@@ -139,24 +139,13 @@ class FacebookAppEvents {
     String currency,
     Map<dynamic, dynamic> parameters,
   ) {
-    if (purchaseAmount == null) {
-      print("purchaseAmount cannot be null");
-      return null;
-    } else if (currency == null) {
-      print("currency cannot be null");
-      return null;
-    }
+    final args = <String, dynamic>{
+      'purchaseAmount': purchaseAmount,
+      'currency': currency,
+      'parameters': parameters,
+    };
 
-    if (parameters == null) {
-      parameters = {};
-    }
-    parameters.putIfAbsent("fb_currency", () => currency);
-
-    return logEvent(
-      name: "fb_mobile_purchase",
-      valueToSum: purchaseAmount,
-      parameters: parameters,
-    );
+    return _channel.invokeMethod<void>('logPurchase', args);
   }
 
   // Below are shorthand implementations of the predefined app event constants

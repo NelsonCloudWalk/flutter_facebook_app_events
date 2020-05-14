@@ -41,6 +41,9 @@ public class SwiftFacebookAppEventsPlugin: NSObject, FlutterPlugin {
         case "setAutoLogAppEventsEnabled":
             handleSetAutoLogAppEventsEnabled(call, result: result)
             break
+        case "logPurchase":
+            handlerLogPurchase(call, result: result)
+            break
         default:
             result(FlutterMethodNotImplemented)
         }
@@ -48,6 +51,15 @@ public class SwiftFacebookAppEventsPlugin: NSObject, FlutterPlugin {
     
     private func handleClearUserData(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         AppEvents.clearUserData()
+        result(nil)
+    }
+    
+    private func handlerLogPurchase(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+        let arguments = call.arguments as? [String: Any] ?? [String: Any]()
+        let purchaseAmount = arguments["purchaseAmount"] as! Double
+        let currency = arguments["currency"] as! String
+        let parameters = arguments["parameters"] as? [String: Any] ?? [String: Any]()
+        AppEvents.logPurchase(purchaseAmount, currency, parameters)
         result(nil)
     }
     
