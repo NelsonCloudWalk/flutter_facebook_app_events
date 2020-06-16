@@ -11,6 +11,8 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
+import java.math.BigDecimal
+import java.util.*
 
 class FacebookAppEventsPlugin(registrar: Registrar) : MethodCallHandler {
   private val logTag = "FacebookAppEvents"
@@ -51,9 +53,9 @@ class FacebookAppEventsPlugin(registrar: Registrar) : MethodCallHandler {
   }
 
   private fun handleLogPurchase(call: MethodCall, result: Result) {
-    val purchaseAmount = call.argument("purchaseAmount") as? Double
-    val currency = call.argument("currency") as? String
-    val parameters = call.argument("parameters") as? Map<String, Object>
+    val purchaseAmount = call.argument("purchaseAmount") as? BigDecimal
+    val currency = call.argument("currency") as? Currency
+    val parameters = call.argument("parameters") as? Bundle
 
     appEventsLogger.logPurchase(purchaseAmount, currency, parameters)
     result.success(null)
