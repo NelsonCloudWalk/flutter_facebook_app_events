@@ -20,7 +20,7 @@ class FacebookAppEventsPlugin : FlutterPlugin, MethodCallHandler {
   private lateinit var channel : MethodChannel
 
   private val logTag = "FacebookAppEvents"
-  private lateinit var appEventsLogger: AppEventsLogger
+  private var appEventsLogger: AppEventsLogger? = null
 
   override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(binding.getFlutterEngine().getDartExecutor(), "flutter.oddbit.id/facebook_app_events")
