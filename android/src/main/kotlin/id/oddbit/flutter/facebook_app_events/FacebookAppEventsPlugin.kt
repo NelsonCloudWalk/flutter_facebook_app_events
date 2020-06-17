@@ -19,7 +19,7 @@ class FacebookAppEventsPlugin(registrar: Registrar) : MethodCallHandler {
   var appEventsLogger: AppEventsLogger
 
   init {
-    FacebookSdk.sdkInitialize()
+    FacebookSdk.sdkInitialize(getApplicationContext());
     this.appEventsLogger = AppEventsLogger.newLogger(registrar.context())
 
   }
@@ -27,6 +27,7 @@ class FacebookAppEventsPlugin(registrar: Registrar) : MethodCallHandler {
   companion object {
     @JvmStatic
     fun registerWith(registrar: Registrar) {
+
       val channel = MethodChannel(registrar.messenger(), "flutter.oddbit.id/facebook_app_events")
       channel.setMethodCallHandler(FacebookAppEventsPlugin(registrar))
     }
