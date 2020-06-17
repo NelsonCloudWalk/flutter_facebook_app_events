@@ -19,7 +19,9 @@ class FacebookAppEventsPlugin(registrar: Registrar) : MethodCallHandler {
   var appEventsLogger: AppEventsLogger
 
   init {
+    FacebookSdk.sdkInitialize()
     this.appEventsLogger = AppEventsLogger.newLogger(registrar.context())
+
   }
 
   companion object {
