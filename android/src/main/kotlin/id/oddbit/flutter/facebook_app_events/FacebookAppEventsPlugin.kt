@@ -11,12 +11,20 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
+import io.flutter.embedding.engine.plugins.FlutterPlugin
 import java.math.BigDecimal
 import java.util.*
 
-class FacebookAppEventsPlugin(registrar: Registrar) : MethodCallHandler {
+class FacebookAppEventsPlugin(registrar: Registrar) : FlutterPlugin, MethodCallHandler {
+  private lateinit var channel : MethodChannel
+
   private val logTag = "FacebookAppEvents"
   var appEventsLogger: AppEventsLogger
+
+  override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+    channel = MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "flutter.oddbit.id/facebook_app_events")
+    channel.setMethodCallHandler(this);
+  }
 
   init {
     FacebookSdk.sdkInitialize(getApplicationContext());
