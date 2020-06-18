@@ -16,32 +16,34 @@ import io.flutter.embedding.engine.plugins.FlutterPlugin
 import java.math.BigDecimal
 import java.util.*
 
-class FacebookAppEventsPlugin : FlutterPlugin, MethodCallHandler {
+class FacebookAppEventsPlugin(var appEventsLogger: AppEventsLogger) : FlutterPlugin, MethodCallHandler {
   private lateinit var channel : MethodChannel
 
   private val logTag = "FacebookAppEvents"
-  private lateinit var registrarVal: Registrar
-  private lateinit var appEventsLogger: AppEventsLogger
+
 
   override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(binding.getFlutterEngine().getDartExecutor(), "flutter.oddbit.id/facebook_app_events")
     channel.setMethodCallHandler(this);
-    this.appEventsLogger = AppEventsLogger.newLogger(registrarVal.context())
   }
 
   override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
     channel.setMethodCallHandler(null)
   }
 
+  private fun initAppEventsLogger(registrar: Registrar) {
+    appEventsLogger = AppEventsLogger.newLogger(registrar.context())
+  }
 
   companion object {
     @JvmStatic
     fun registerWith(registrar: Registrar) {
       val channel = MethodChannel(registrar.messenger(), "flutter.oddbit.id/facebook_app_events")
-      val facebookAppEventsPlugin = FacebookAppEventsPlugin()
+      val appEventsLogger = AppEventsLogger.newLogger(registrar.context())
+      val facebookAppEventsPlugin = FacebookAppEventsPlugin(appEventsLogger)
       channel.setMethodCallHandler(facebookAppEventsPlugin)
-      FacebookSdk.sdkInitialize(getApplicationContext())
-      facebookAppEventsPlugin.registrarVal = registrar
+      FacebookSdk.sdkInitialize(getApplicationContext());
+
     }
   }
 
