@@ -1,5 +1,6 @@
 package id.oddbit.flutter.facebook_app_events
 
+import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import com.facebook.FacebookSdk
@@ -7,17 +8,24 @@ import com.facebook.FacebookSdk.getApplicationContext
 import com.facebook.appevents.AppEventsLogger
 import com.facebook.GraphRequest
 import com.facebook.GraphResponse
+import io.flutter.app.FlutterActivity
+import io.flutter.embedding.android.FlutterEngineConfigurator
+import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.embedding.engine.FlutterEngineCache
+import io.flutter.embedding.engine.dart.DartExecutor
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
 import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.embedding.engine.plugins.shim.ShimPluginRegistry
 import java.math.BigDecimal
 import java.util.*
 
-class FacebookAppEventsPlugin(registrar: Registrar) : FlutterPlugin, MethodCallHandler {
+class FacebookAppEventsPlugin(registrar: Registrar) : FlutterPlugin, MethodCallHandler, FlutterEngineConfigurator {
   private lateinit var channel : MethodChannel
+  lateinit var flutterEngine : FlutterEngine
 
   private val logTag = "FacebookAppEvents"
   lateinit var appEventsLogger: AppEventsLogger
@@ -30,6 +38,15 @@ class FacebookAppEventsPlugin(registrar: Registrar) : FlutterPlugin, MethodCallH
   override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
     channel.setMethodCallHandler(null)
   }
+
+  override fun cleanUpFlutterEngine(flutterEngine: FlutterEngine) {
+    TODO("Not yet implemented")
+  }
+
+  override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+    // Use the GeneratedPluginRegistrant to add every plugin that's in the pubspec.
+    GeneratedPluginRegistrant.registerWith(ShimPluginRegistry(flutterEngine));
+    }
 
   init {
     appEventsLogger = AppEventsLogger.newLogger(registrar.context())
