@@ -20,7 +20,6 @@ class FacebookAppEventsPlugin : FlutterPlugin, MethodCallHandler {
   private lateinit var channel : MethodChannel
 
   private val logTag = "FacebookAppEvents"
-  private lateinit var registrarVal: Registrar
   private lateinit var appEventsLogger: AppEventsLogger
 
   override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
@@ -32,13 +31,6 @@ class FacebookAppEventsPlugin : FlutterPlugin, MethodCallHandler {
     channel.setMethodCallHandler(null)
   }
 
-  init {
-    if (registrarVal == null){
-      print("registrar is null")
-    }
-     this.appEventsLogger = AppEventsLogger.newLogger(registrarVal!!.context())
-     FacebookSdk.sdkInitialize(getApplicationContext());
-  }
 
 
   companion object {
@@ -46,7 +38,8 @@ class FacebookAppEventsPlugin : FlutterPlugin, MethodCallHandler {
     fun registerWith(registrar: Registrar) {
       val channel = MethodChannel(registrar.messenger(), "flutter.oddbit.id/facebook_app_events")
       val facebookAppEventsPlugin = FacebookAppEventsPlugin()
-      facebookAppEventsPlugin.registrarVal = registrar
+      facebookAppEventsPlugin.appEventsLogger = AppEventsLogger.newLogger(registrar.context())
+      FacebookSdk.sdkInitialize(getApplicationContext());
       channel.setMethodCallHandler(facebookAppEventsPlugin)
     }
   }
