@@ -32,6 +32,9 @@ class FacebookAppEventsPlugin : FlutterPlugin, MethodCallHandler{
   }
 
   private fun initAppEventsLogger() {
+    if (!FacebookSdk.isInitialized()){
+      FacebookSdk.sdkInitialize(getApplicationContext());
+    }
     appEventsLogger = AppEventsLogger.newLogger(getApplicationContext())
   }
 
@@ -41,7 +44,6 @@ class FacebookAppEventsPlugin : FlutterPlugin, MethodCallHandler{
       val channel = MethodChannel(registrar.messenger(), "flutter.oddbit.id/facebook_app_events")
       val facebookAppEventsPlugin = FacebookAppEventsPlugin()
       channel.setMethodCallHandler(facebookAppEventsPlugin)
-      FacebookSdk.sdkInitialize(getApplicationContext());
       facebookAppEventsPlugin.initAppEventsLogger();
     }
   }
