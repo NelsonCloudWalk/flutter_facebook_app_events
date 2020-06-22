@@ -47,6 +47,9 @@ class FacebookAppEventsPlugin : FlutterPlugin, MethodCallHandler{
   }
 
   override fun onMethodCall(call: MethodCall, result: Result) {
+    if(appEventsLogger == null){
+      initAppEventsLogger()
+    }
     when (call.method) {
       "clearUserData" -> handleClearUserData(call, result)
       "clearUserID" -> handleClearUserId(call, result)
