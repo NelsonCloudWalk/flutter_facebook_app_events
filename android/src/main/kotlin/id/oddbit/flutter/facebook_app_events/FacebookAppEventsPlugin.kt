@@ -76,7 +76,7 @@ class FacebookAppEventsPlugin : FlutterPlugin, MethodCallHandler{
     val currency = call.argument("currency") as? Currency
     val parameters = call.argument("parameters") as? Bundle
 
-    appEventsLogger.logPurchase(purchaseAmount, currency, parameters)
+    appEventsLogger!!.logPurchase(purchaseAmount, currency, parameters)
     result.success(null)
   }
 
@@ -86,12 +86,12 @@ class FacebookAppEventsPlugin : FlutterPlugin, MethodCallHandler{
   }
 
   private fun handleFlush(call: MethodCall, result: Result) {
-    appEventsLogger.flush()
+    appEventsLogger!!.flush()
     result.success(null)
   }
 
   private fun getApplicationId(call: MethodCall, result: Result) {
-    result.success(appEventsLogger.getApplicationId())
+    result.success(appEventsLogger!!.getApplicationId())
   }
 
   private fun handleLogEvent(call: MethodCall, result: Result) {
@@ -101,14 +101,14 @@ class FacebookAppEventsPlugin : FlutterPlugin, MethodCallHandler{
 
     if (valueToSum != null && parameters != null) {
       val parameterBundle = createBundleFromMap(parameters)
-      appEventsLogger.logEvent(eventName, valueToSum, parameterBundle)
+      appEventsLogger!!.logEvent(eventName, valueToSum, parameterBundle)
     } else if (valueToSum != null) {
-      appEventsLogger.logEvent(eventName, valueToSum)
+      appEventsLogger!!.logEvent(eventName, valueToSum)
     } else if (parameters != null) {
       val parameterBundle = createBundleFromMap(parameters)
-      appEventsLogger.logEvent(eventName, parameterBundle)
+      appEventsLogger!!.logEvent(eventName, parameterBundle)
     } else {
-      appEventsLogger.logEvent(eventName)
+      appEventsLogger!!.logEvent(eventName)
     }
 
     result.success(null)
@@ -120,9 +120,9 @@ class FacebookAppEventsPlugin : FlutterPlugin, MethodCallHandler{
     val payloadBundle = createBundleFromMap(payload)
 
     if (action != null) {
-      appEventsLogger.logPushNotificationOpen(payloadBundle, action)
+      appEventsLogger!!.logPushNotificationOpen(payloadBundle, action)
     } else {
-      appEventsLogger.logPushNotificationOpen(payloadBundle)
+      appEventsLogger!!.logPushNotificationOpen(payloadBundle)
     }
 
     result.success(null)
