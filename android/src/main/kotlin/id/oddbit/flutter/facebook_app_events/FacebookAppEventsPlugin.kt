@@ -31,10 +31,12 @@ class FacebookAppEventsPlugin : FlutterPlugin, MethodCallHandler{
     channel.setMethodCallHandler(null)
   }
 
+  init {
+    FacebookSdk.sdkInitialize(getApplicationContext());
+    initAppEventsLogger()
+  }
+
   private fun initAppEventsLogger() {
-    if (!FacebookSdk.isInitialized()){
-      FacebookSdk.sdkInitialize(getApplicationContext());
-    }
     appEventsLogger = AppEventsLogger.newLogger(getApplicationContext())
   }
 
