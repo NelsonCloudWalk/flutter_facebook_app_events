@@ -53,11 +53,9 @@ class FacebookAppEventsPlugin(registrar: Registrar) : MethodCallHandler {
   }
 
   private fun handleLogPurchase(call: MethodCall, result: Result) {
-    val purchaseAmount = call.argument("purchaseAmount") as? BigDecimal
-    val currency = call.argument("currency") as? Currency
-    val parameters = call.argument("parameters") as? Bundle
-
-    appEventsLogger.logPurchase(purchaseAmount, currency, parameters)
+    val purchaseAmount = call.argument("purchaseAmount") as? Double?
+    val currency = call.argument("currency") as? String?
+    appEventsLogger.logPurchase(BigDecimal.valueOf(purchaseAmount!!) , Currency.getInstance(currency) , null)
     result.success(null)
   }
 
