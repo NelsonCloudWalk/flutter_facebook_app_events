@@ -8,9 +8,5 @@
       android:name="com.facebook.sdk.CodelessDebugLogEnabled"
       android:value="true" />
 
-    <meta-data
-        android:name="com.facebook.sdk.AutoInitEnabled"
-        android:value="false" />
-
   </application>
 </manifest>
