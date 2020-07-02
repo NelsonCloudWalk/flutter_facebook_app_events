@@ -20,8 +20,8 @@ class FacebookAppEventsPlugin(registrar: Registrar) : MethodCallHandler, Flutter
   var appEventsLogger: AppEventsLogger
 
   init {
-    FacebookSdk.sdkInitialize(registrar.context())
     FacebookSdk.setApplicationId("129808290858803")
+    FacebookSdk.sdkInitialize(registrar.context())
     AppEventsLogger.activateApp(this);
     this.appEventsLogger = AppEventsLogger.newLogger(registrar.context())
   }
