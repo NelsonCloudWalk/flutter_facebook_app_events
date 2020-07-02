@@ -1,13 +1,10 @@
 package id.oddbit.flutter.facebook_app_events
-
-import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
 import com.facebook.GraphRequest
 import com.facebook.GraphResponse
-import io.flutter.app.FlutterApplication
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -16,12 +13,12 @@ import io.flutter.plugin.common.PluginRegistry.Registrar
 import java.math.BigDecimal
 import java.util.*
 
-class FacebookAppEventsPlugin(registrar: Registrar) : MethodCallHandler, Application() {
+class FacebookAppEventsPlugin(registrar: Registrar) : MethodCallHandler{
   private val logTag = "FacebookAppEvents"
   var appEventsLogger: AppEventsLogger
 
   init {
-    FacebookSdk.sdkInitialize(applicationContext)
+    FacebookSdk.sdkInitialize(registrar.activity().applicationContext)
     this.appEventsLogger = AppEventsLogger.newLogger(registrar.context())
   }
 
