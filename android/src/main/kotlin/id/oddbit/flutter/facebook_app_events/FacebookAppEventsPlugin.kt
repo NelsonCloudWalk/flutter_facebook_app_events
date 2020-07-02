@@ -20,6 +20,7 @@ class FacebookAppEventsPlugin(registrar: Registrar) : MethodCallHandler, Flutter
   var appEventsLogger: AppEventsLogger
 
   init {
+    FacebookSdk.setAutoInitEnabled(true)
     FacebookSdk.fullyInitialize();
     AppEventsLogger.activateApp(this);
     this.appEventsLogger = AppEventsLogger.newLogger(registrar.context())
