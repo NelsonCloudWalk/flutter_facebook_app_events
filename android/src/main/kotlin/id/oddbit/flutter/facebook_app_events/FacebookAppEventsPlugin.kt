@@ -6,6 +6,7 @@ import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
 import com.facebook.GraphRequest
 import com.facebook.GraphResponse
+import io.flutter.app.FlutterApplication
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -14,7 +15,7 @@ import io.flutter.plugin.common.PluginRegistry.Registrar
 import java.math.BigDecimal
 import java.util.*
 
-class FacebookAppEventsPlugin(registrar: Registrar) : MethodCallHandler {
+class FacebookAppEventsPlugin(registrar: Registrar) : MethodCallHandler, FlutterApplication() {
   private val logTag = "FacebookAppEvents"
   var appEventsLogger: AppEventsLogger
 
